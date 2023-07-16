@@ -20,7 +20,7 @@ public class TransferPage {
 
     private final SelenideElement transferHead = $(byText("Пополнение карты"));
 
-    private final SelenideElement errorMessage = $("[data-test-id='error-message']");
+    private final SelenideElement errorMessage = $("[ata-test-id='error-notification']");
 
     public TransferPage() {
         transferHead.shouldBe(visible);

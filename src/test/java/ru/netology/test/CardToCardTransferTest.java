@@ -38,4 +38,15 @@ public class CardToCardTransferTest {
         assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
         assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
     }
+
+    @Test
+    void shouldUnsuccessTransferIfAmountMoreBalance() {
+        var firstCardInfo = getFirstCardInfo();
+        var secondCardInfo = getSecondCardInfo();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+        var amount = generateInvalidAmount(firstCardBalance);
+        var transferPage = dashboardPage.selectCardTransfer(secondCardInfo);
+        transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
+        transferPage.findErrorMessage("Ошибка! ");
+    }
 }

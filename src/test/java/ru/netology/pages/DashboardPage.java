@@ -3,6 +3,7 @@ package ru.netology.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.attribute;
@@ -15,11 +16,11 @@ public class DashboardPage {
 
     private final String balanceStart = "баланс: ";
 
-    private final String balanceFinish = "р. ";
+    private final String balanceFinish = " р.";
 
     private final SelenideElement heading = $("[data-test-id='dashboard']");
 
-    private final ElementsCollection cards = $$("list__item div");
+    private final ElementsCollection cards = $$(By.className("list__item"));
 
     public DashboardPage() {
         heading.shouldBe(visible);
@@ -30,9 +31,11 @@ public class DashboardPage {
         return extractBalance(text);
     }
     public TransferPage selectCardTransfer(DataHelper.CardInfo cardInfo) {
-        cards.findBy(attribute("data-test-id", cardInfo.getTestId())).$("button").click();
+        cards.findBy(text(cardInfo.getCardNumber().substring(15))).$("button").click();
         return new TransferPage();
     }
+
+    //"data-test-id",cardInfo.getTestId()
 
     private int extractBalance(String text) {
         var start = text.indexOf(balanceStart);
